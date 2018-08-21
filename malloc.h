@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oyagci <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 11:12:19 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/21 11:16:56 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/21 14:48:14 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 # define TINY_RES	16
 # define SMALL_RES	512
 
-typedef int				t_page_type;
-typedef struct s_page	t_page;
-typedef struct s_block	t_block;
+typedef int					t_page_type;
+typedef struct s_page		t_page;
+typedef struct s_block		t_block;
+typedef struct s_page_info	t_page_info;
 
 struct					s_page
 {
@@ -42,6 +43,12 @@ struct					s_block
 	int					is_free;
 	t_block				*prev;
 	t_block				*next;
+};
+
+struct					s_page_info
+{
+	t_page_type	type;
+	t_page		*start;
 };
 
 void					*malloc(size_t size);
