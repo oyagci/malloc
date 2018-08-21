@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 11:12:19 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/21 14:48:14 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/21 15:13:11 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define TINY_RES	16
 # define SMALL_RES	512
 
+typedef char				t_byte;
 typedef int					t_page_type;
 typedef struct s_page		t_page;
 typedef struct s_block		t_block;
