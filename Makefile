@@ -6,7 +6,7 @@
 #    By: oyagci <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 13:09:17 by oyagci            #+#    #+#              #
-#    Updated: 2018/08/16 14:55:04 by oyagci           ###   ########.fr        #
+#    Updated: 2018/08/21 15:00:33 by oyagci           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ CFLAGS		= -Wall -Wextra -Werror -g
 SOURCES		= malloc.c 		\
 		  free.c		\
 		  realloc.c		\
-		  show_alloc_mem.c
+		  show_alloc_mem.c	\
+		  malloc_internal.c
 
 DEPS		= ft_malloc.h
 

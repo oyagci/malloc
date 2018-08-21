@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 11:12:19 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/21 15:13:11 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/21 15:47:05 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_page_info	t_page_info;
 struct					s_page
 {
 	t_page_type			type; /* TINY or SMALL or LARGE */
+	size_t				size;
 	t_page				*next;
 	t_page				*prev;
 	t_block				*free; /* First free block in the page */
@@ -57,5 +58,7 @@ void					*calloc(size_t size, size_t n);
 void					*realloc(void *ptr, size_t size);
 
 void					*malloc_internal(size_t size);
+void					init_page(t_page *page, t_page_type type, size_t size);
+void					init_page_blocks(t_page *page);
 
 #endif
