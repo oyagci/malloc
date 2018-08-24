@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/24 14:34:18 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/24 18:30:23 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 			pinfo->start->free = c;
 		else
 		{
-			printf("b->prev = %p\n", b->prev);
 			b->prev->next = c;
 			c->prev = b->prev;
 		}
