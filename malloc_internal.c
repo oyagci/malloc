@@ -6,11 +6,11 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/21 14:58:29 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/24 07:03:14 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#include <sys/mman.h>
 #include "malloc.h"
 
 t_page_info	g_pools[3];
