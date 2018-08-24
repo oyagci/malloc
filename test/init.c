@@ -4,13 +4,7 @@
 
 Test(init_page, basic_tiny)
 {
-	t_page *p = mmap(
-		0,
-		M,
-		PROT_READ | PROT_WRITE,
-		MAP_ANON | MAP_PRIVATE,
-		0, 0
-	);
+	t_page *p = map_page(M);
 
 	cr_assert(p != 0);
 	init_page(p, TINY, M);
@@ -31,16 +25,16 @@ Test(init_page_blocks, basic_tiny)
 		MAP_ANON | MAP_PRIVATE,
 		0, 0
 	);
+	t_block	*b;
 
 	cr_assert(p != 0);
 	init_page(p, TINY, M);
 
 	init_page_blocks(p);
-	
-	t_block	*b;
 
-	b = (t_block *)p + 1;
+	b = (t_block *)(p + 1);
 
+	cr_assert(p->free == b);
 	cr_assert(b->size == p->size - sizeof(t_block) * 2 - sizeof(t_page));
 	cr_assert(b->is_free == 1);
 	cr_assert(b->prev == 0);
