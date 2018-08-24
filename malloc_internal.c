@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/21 15:47:34 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/24 09:54:37 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,19 @@ void	init_page_blocks(t_page *page)
 {
 	t_block	*b;
 
-	b = (t_block *)(page + 1);
+	page->free = (t_block *)(page + 1);
+	b = page->free;
 	b->size = page->size - sizeof(t_block) * 2 - sizeof(t_page);
 	b->is_free = 1;
 	b->prev = 0;
 	b->next = (t_block *)((t_byte *)(b + 1) + b->size);
 	b->next->size = 0;
-//	b->next->is_free = 0;
-//	b->next->prev = b;
-//	b->next->next = 0;
+	b->next->is_free = 0;
+	b->next->prev = b;
+	b->next->next = 0;
 }
 
-t_page		*init_new_page()
+t_page		*init_new_page(void)
 {
 	t_page	*p = map_page(M);
 

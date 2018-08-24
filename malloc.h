@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 11:12:19 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/24 09:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/24 13:24:25 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ struct					s_page
 	t_page				*next;
 	t_page				*prev;
 	t_block				*free; /* First free block in the page */
+	char				dummy;
 };
 
 struct					s_block
