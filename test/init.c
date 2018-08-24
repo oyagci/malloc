@@ -6,7 +6,7 @@ Test(init_page, basic_tiny)
 {
 	t_page *p = mmap(
 		0,
-		TINY,
+		M,
 		PROT_READ | PROT_WRITE,
 		MAP_ANON | MAP_PRIVATE,
 		0, 0
@@ -25,7 +25,7 @@ Test(init_page_blocks, basic_tiny)
 {
 	t_page *p = mmap(
 		0,
-		TINY,
+		M,
 		PROT_READ | PROT_WRITE,
 		MAP_ANON | MAP_PRIVATE,
 		0, 0
