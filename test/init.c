@@ -1,6 +1,6 @@
 #include <criterion/criterion.h>
 #include <sys/mman.h>
-#include "malloc.h"
+#include "../malloc.h"
 
 Test(init_page, basic_tiny)
 {
@@ -18,6 +18,7 @@ Test(init_page, basic_tiny)
 	cr_assert(p->next == 0);
 	cr_assert(p->prev == 0);
 	cr_assert(p->type == TINY);
+	cr_assert(p->size == M);
 	cr_assert(p->free == 0);
 }
 
