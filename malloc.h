@@ -60,8 +60,9 @@ void					*realloc(void *ptr, size_t size);
 
 void					*malloc_internal(size_t size);
 void					*map_page(size_t size);
-t_page					*init_new_page(void);
+t_page					*init_new_page(t_page_type type, size_t size);
 void					init_page(t_page *page, t_page_type type, size_t size);
 void					init_page_blocks(t_page *page);
+t_block					*find_free_block(t_page_info *pinfo, size_t size);
 
 #endif
