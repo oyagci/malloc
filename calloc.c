@@ -17,7 +17,8 @@ void	*calloc(size_t size, size_t n)
 {
 	void	*mem;
 
-	mem = malloc(size * n);
+	if ((mem = malloc(size * n)) == NULL)
+		return (NULL);
 	ft_bzero(mem, size * n);
 	return (mem);
 }
