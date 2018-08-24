@@ -84,3 +84,26 @@ Test(find_free_block, basic_tiny)
 	cr_assert(b->size == 16);
 	cr_assert(pool.start->free != b);
 }
+
+Test(find_free_block, double_tiny)
+{
+	t_page_info	pool;
+	t_page		*p;
+	t_block		*b;
+
+	p = init_new_page(TINY, M);
+	cr_assert(p != NULL);
+	pool.start = p;
+	pool.type = TINY;
+
+	b = find_free_block(&pool, 16);
+	cr_assert(b != NULL);
+	cr_assert(b->size == 16);
+	cr_assert(pool.start->free != b);
+
+	t_block	*b2;
+	b2 = find_free_block(&pool, 32);
+	cr_assert(b2 != b);
+	cr_assert(b2->size == 32);
+	cr_assert(pool.start->free != b2);
+}
