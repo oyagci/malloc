@@ -41,3 +41,28 @@ Test(init_page_blocks, basic_tiny)
 	cr_assert(b->next == (t_block *)((t_byte *)(b + 1) + b->size));
 	cr_assert(b->next->size == 0);
 }
+
+Test(init_new_page, tiny)
+{
+	t_page	*p;
+	t_block	*b;
+
+	p = init_new_page();
+
+	cr_assert(p != 0);
+	init_page(p, TINY, M);
+	cr_assert(p->next == 0);
+	cr_assert(p->prev == 0);
+	cr_assert(p->type == TINY);
+	cr_assert(p->size == M);
+	cr_assert(p->free == 0);
+
+	init_page_blocks(p);
+	b = (t_block *)(p + 1);
+	cr_assert(p->free == b);
+	cr_assert(b->size == p->size - sizeof(t_block) * 2 - sizeof(t_page));
+	cr_assert(b->is_free == 1);
+	cr_assert(b->prev == 0);
+	cr_assert(b->next == (t_block *)((t_byte *)(b + 1) + b->size));
+	cr_assert(b->next->size == 0);
+}
