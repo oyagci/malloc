@@ -6,7 +6,7 @@
 #    By: oyagci <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 13:09:17 by oyagci            #+#    #+#              #
-#    Updated: 2018/08/21 15:00:33 by oyagci           ###   ########.fr        #
+#    Updated: 2018/08/24 08:28:31 by oyagci           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SOURCES		= malloc.c 		\
 		  show_alloc_mem.c	\
 		  malloc_internal.c
 
-DEPS		= ft_malloc.h
+DEPS		= malloc.h
 
 %.o: %.c $(DEPS)
 	$(CC) -fPIC -c -o $@ $< $(CFLAGS) -I libft/includes -I .
