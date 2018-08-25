@@ -83,6 +83,9 @@ Test(find_free_block, basic_tiny)
 	cr_assert(b != NULL);
 	cr_assert(b->size == 16);
 	cr_assert(pool.start->free != b);
+	cr_assert(pool.start->free->next != 0);
+	cr_assert(pool.start->free->next->size == 0);
+	cr_assert(pool.start->free->next->prev == pool.start->free);
 }
 
 Test(find_free_block, double_tiny)

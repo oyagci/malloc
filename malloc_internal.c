@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/24 18:30:23 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/25 14:50:41 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 			b->prev->next = c;
 			c->prev = b->prev;
 		}
+		c->next = b->next;
+		if (c->next)
+			c->next->prev = c;
 		b->size = size;
 		b->prev = NULL;
 		b->next = NULL;
