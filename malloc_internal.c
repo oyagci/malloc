@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/25 14:50:41 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/25 16:02:40 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 		b->size = size;
 		b->prev = NULL;
 		b->next = NULL;
+		b->is_free = 0;
 		return (b);
 	}
 	return (0);

@@ -102,11 +102,19 @@ Test(find_free_block, double_tiny)
 	b = find_free_block(&pool, 16);
 	cr_assert(b != NULL);
 	cr_assert(b->size == 16);
+	cr_assert(b->is_free == 0);
 	cr_assert(pool.start->free != b);
+	cr_assert(pool.start->free->next != 0);
+	cr_assert(pool.start->free->next->size == 0);
+	cr_assert(pool.start->free->next->prev == pool.start->free);
 
 	t_block	*b2;
 	b2 = find_free_block(&pool, 32);
 	cr_assert(b2 != b);
 	cr_assert(b2->size == 32);
+	cr_assert(b2->is_free == 0);
 	cr_assert(pool.start->free != b2);
+	cr_assert(pool.start->free->next != 0);
+	cr_assert(pool.start->free->next->size == 0);
+	cr_assert(pool.start->free->next->prev == pool.start->free);
 }
