@@ -6,13 +6,11 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 18:54:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/25 16:20:48 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/27 17:24:42 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-# include <stdio.h>
 
 extern t_page_info	g_pools[3];
 
