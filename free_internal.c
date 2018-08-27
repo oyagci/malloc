@@ -47,11 +47,22 @@ void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 		p = p->next;
 	}
 	b = p->free;
-	while (b->size != 0 && b->next < fblock)
+	while (b->size != 0 && b < fblock)
 		b = b->next;
-	fblock->next = b->next;
-	fblock->prev = b;
-	b->next = fblock;
+	if (p->free == b)
+	{
+		b->next = fblock;
+		fblock->next = b;
+		fblock->next->prev = fblock;
+		p->free = fblock;
+	}
+	else
+	{
+		fblock->prev = b->prev;
+		b->prev->next = fblock;
+		b->prev = fblock;
+		fblock->next = b;
+	}
 }
 
 void	free_internal(void *ptr)
