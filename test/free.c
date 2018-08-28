@@ -12,6 +12,25 @@ Test(free_internal, basic_tiny)
 	cr_assert(b->is_free == 1);
 }
 
+Test(free_internal, basic_two)
+{
+	int		*a;
+	int		*b;
+	t_block	*block;
+
+	a = malloc_internal(sizeof(int));
+	b = malloc_internal(sizeof(int));
+	cr_assert(a && b);
+
+	free_internal(a);
+	block = (t_block *) a - 1;
+	cr_assert(block->is_free = 1);
+
+	free_internal(b);
+	block = (t_block *) b - 1;
+	cr_assert(block->is_free = 1);
+}
+
 Test(add_block_to_free_list, basic)
 {
 	t_page_info	pinfo;
