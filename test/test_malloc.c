@@ -1,5 +1,5 @@
 #include <criterion/criterion.h>
-#include "malloc.h"
+#include "../malloc.h"
 
 Test(malloc, basic_char)
 {
@@ -34,4 +34,86 @@ Test(malloc, malloc__free___bigger_malloc)
 	p = malloc_internal(32);
 	cr_assert(p != 0);
 	*p = 42;
+}
+
+Test(malloc, full_page)
+{
+	t_page_info	pinfo;
+	t_block		*b;
+
+	pinfo.start = init_new_page(TINY, M);
+	pinfo.type = TINY;
+	b = pinfo.start->free;
+	pinfo.start->free = b->next;
+	b->prev = 0;
+	b->next = 0;
+	b->is_free = 0;
+
+	t_block *f = find_free_block(&pinfo, 16);
+	cr_assert(f == NULL);
+}
+
+Test(malloc, alignment_tiny)
+{
+	size_t align = 16;
+
+	void	*p = malloc_internal(15);
+
+	cr_assert(p != 0);
+	cr_assert((size_t)p % align == 0);
+
+	p = malloc_internal(15);
+
+	cr_assert(p != 0);
+	cr_assert((size_t)p % align == 0);
+}
+
+Test(malloc, alignment_small)
+{
+	size_t align = 16;
+
+	void	*p = malloc_internal(529);
+
+	cr_assert(p != 0);
+	cr_assert((size_t)p % align == 0);
+
+	p = malloc_internal(543);
+
+	cr_assert(p != 0);
+	cr_assert((size_t)p % align == 0);
+}
+Test(malloc, block_size_multiple_tiny)
+{
+	t_block	*b;
+	size_t	mult = 16;
+
+	void	*p = malloc_internal(4);
+	b = (t_block *)p - 1;
+
+	cr_assert(p != 0);
+	cr_assert(b->size % mult == 0);
+
+	p = malloc_internal(1);
+	b = (t_block *)p - 1;
+
+	cr_assert(p != 0);
+	cr_assert(b->size % mult == 0);
+}
+
+Test(malloc, block_size_multiple_small)
+{
+	t_block	*b;
+	size_t	mult = 512;
+
+	void	*p = malloc_internal(1020);
+	b = (t_block *)p - 1;
+
+	cr_assert(p != 0);
+	cr_assert(b->size % mult == 0);
+
+	p = malloc_internal(1025);
+	b = (t_block *)p - 1;
+
+	cr_assert(p != 0);
+	cr_assert(b->size % mult == 0);
 }

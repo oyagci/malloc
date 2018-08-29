@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/25 16:02:40 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/08/29 16:31:13 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,20 @@
 #include <sys/mman.h>
 
 t_page_info	g_pools[3];
+
+int		round_up(int num, int multiple)
+{
+	int	remainder; 
+
+	if (num == 0)
+		return (multiple);
+	if (multiple == 0)
+		return (num);
+	remainder = num % multiple;
+	if (remainder == 0)
+		return (num);
+	return (num + multiple - remainder);
+}
 
 void	*map_page(size_t size)
 {
@@ -104,6 +118,9 @@ void		*malloc_internal(size_t size)
 {
 	t_block	*b;
 
+	size = round_up(size, TINY_RES);
+	if (size > TINY && size < SMALL)
+		size = round_up(size, SMALL_RES);
 	b = find_free_block(&g_pools[0], size);
 	return (b ? b + 1 : 0);
 }
