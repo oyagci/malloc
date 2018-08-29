@@ -89,9 +89,9 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 			return (0);
 	}
 	b = pinfo->start->free;
-	while (!(b->size >= size && b->size > sizeof(t_block) + 16))
+	while (b && !(b->size >= size && b->size > sizeof(t_block) + 16))
 		b = b->next;
-	if (b->size >= size && b->size > sizeof(t_block) + 16)
+	if (b && b->size >= size && b->size > sizeof(t_block) + 16)
 	{
 		c = (t_block *)((t_byte *)(b + 1) + size);
 		c->size = b->size - size - sizeof(t_block) * 2;
