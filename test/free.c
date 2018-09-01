@@ -115,3 +115,17 @@ Test(add_block_to_free_list, basic_reverse)
 	cr_assert(p[5] == pinfo.start->free);
 	cr_assert(pinfo.start->free->next == p[6]);
 }
+
+Test(free_internal, invalid_address)
+{
+	malloc_internal(16);
+	malloc_internal(16);
+	malloc_internal(16);
+	malloc_internal(16);
+	free_internal((void*)(-1));
+}
+
+Test(free_internal, null_value)
+{
+	free_internal(0);
+}

@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 18:54:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/27 17:24:42 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/01 12:25:38 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	free_internal(void *ptr)
 {
 	t_block	*ptr_b;
 
+	if (!ptr)
+		return ;
 	ptr_b = (t_block *)ptr - 1;
 	if (!check_block_ptr(ptr_b, &g_pools[0]))
 		return ;
