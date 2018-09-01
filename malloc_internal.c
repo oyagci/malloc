@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/01 15:28:21 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/01 16:19:52 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,36 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 	b = pinfo->start->free;
 	while (b && !(b->size >= size && b->size > sizeof(t_block) + 16))
 		b = b->next;
-	if (b && b->size >= size && b->size - size > sizeof(t_block) + 16)
+	if (b && b->size >= size)
 	{
-		c = (t_block *)((t_byte *)(b + 1) + size);
-		c->size = b->size - size - sizeof(t_block) * 2;
-		if (b == pinfo->start->free)
-			pinfo->start->free = c;
+		if (b->size - size > sizeof(t_block) + 16)
+		{
+			c = (t_block *)((t_byte *)(b + 1) + size);
+			c->size = b->size - size - sizeof(t_block) * 2;
+			if (b == pinfo->start->free)
+				pinfo->start->free = c;
+			else
+			{
+				b->prev->next = c;
+				c->prev = b->prev;
+			}
+			c->next = b->next;
+			if (c->next)
+				c->next->prev = c;
+			b->size = size;
+		}
 		else
 		{
-			b->prev->next = c;
-			c->prev = b->prev;
+			if (b == pinfo->start->free)
+				pinfo->start->free = b->next;
+			else
+			{
+				if (b->prev)
+					b->prev->next = b->next;
+				if (b->next)
+					b->next->prev = b->prev;
+			}
 		}
-		c->next = b->next;
-		if (c->next)
-			c->next->prev = c;
-		b->size = size;
 		b->prev = NULL;
 		b->next = NULL;
 		b->is_free = 0;
