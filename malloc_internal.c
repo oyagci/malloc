@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 10:14:03 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 12:05:08 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,19 @@ t_page		*init_new_page(t_page_type type, size_t size)
 	return (p);
 }
 
+void		remove_block(t_block **free_list, t_block *to_remove)
+{
+	if (to_remove == *free_list)
+		*free_list = to_remove->next;
+	else
+	{
+		if (to_remove->prev)
+			to_remove->prev->next = to_remove->next;
+		if (to_remove->next)
+			to_remove->next->prev = to_remove->prev;
+	}
+}
+
 t_block		*find_free_block(t_page_info *pinfo, size_t size)
 {
 	t_block	*b;
@@ -110,17 +123,7 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 			b->size = size;
 		}
 		else
-		{
-			if (b == pinfo->start->free)
-				pinfo->start->free = b->next;
-			else
-			{
-				if (b->prev)
-					b->prev->next = b->next;
-				if (b->next)
-					b->next->prev = b->prev;
-			}
-		}
+			remove_block(&pinfo->start->free, b);
 		b->prev = NULL;
 		b->next = NULL;
 		b->is_free = 0;
