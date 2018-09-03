@@ -6,7 +6,7 @@
 /*   By: oyagci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 12:46:18 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 12:46:27 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 15:49:11 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void		add_remainder_to_free_list(
 		*free_list = rmder;
 	else
 	{
-		b->prev->next = rmder;
 		rmder->prev = b->prev;
+		rmder->prev->next = rmder;
 	}
 	rmder->next = b->next;
 	if (rmder->next)
