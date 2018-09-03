@@ -89,7 +89,7 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 			return (0);
 	}
 	b = pinfo->start->free;
-	while (b && !(b->size >= size && b->size > sizeof(t_block) + 16))
+	while (b && !(b->size >= size))
 		b = b->next;
 	if (b && b->size >= size)
 	{

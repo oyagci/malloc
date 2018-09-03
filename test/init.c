@@ -118,3 +118,20 @@ Test(find_free_block, double_tiny)
 	cr_assert(pool.start->free->next->size == 0);
 	cr_assert(pool.start->free->next->prev == pool.start->free);
 }
+
+Test(find_free_block, unsplittable_block)
+{
+	t_page_info	pool;
+
+	pool.start = init_new_page(TINY, M);
+	pool.type = TINY;
+
+	pool.start->free->size = 16;
+
+	t_block *b = find_free_block(&pool, 16);
+	cr_assert(b != 0);
+
+	t_block *b2 = find_free_block(&pool, 16);
+	cr_assert(b2 != b);
+	cr_assert(b2 == 0);
+}
