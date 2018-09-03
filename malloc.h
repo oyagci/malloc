@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/21 11:12:19 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 12:47:32 by oyagci           ###   ########.fr       */
+/*   Created: 2018/09/03 13:21:07 by oyagci            #+#    #+#             */
+/*   Updated: 2018/09/03 13:38:39 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ typedef struct s_page		t_page;
 typedef struct s_block		t_block;
 typedef struct s_page_info	t_page_info;
 
-struct					s_page
+struct						s_page
 {
-	t_page_type			type; /* TINY or SMALL or LARGE */
+	t_page_type			type;
 	size_t				size;
 	t_page				*next;
 	t_page				*prev;
-	t_block				*free; /* First free block in the page */
+	t_block				*free;
 	char				dummy;
 };
 
-struct					s_block
+struct						s_block
 {
 	size_t				size;
 	int					is_free;
@@ -48,35 +48,39 @@ struct					s_block
 	t_block				*next;
 };
 
-struct					s_page_info
+struct						s_page_info
 {
 	t_page_type	type;
 	t_page		*start;
 };
 
-void					*malloc(size_t size);
-void					*calloc(size_t size, size_t n);
-void					*realloc(void *ptr, size_t size);
+void						*malloc(size_t size);
+void						*calloc(size_t size, size_t n);
+void						*realloc(void *ptr, size_t size);
 
-void					*malloc_internal(size_t size, t_page_info *pools);
-void					*map_page(size_t size);
-t_page					*init_new_page(t_page_type type, size_t size);
-void					init_page(t_page *page, t_page_type type, size_t size);
-void					init_page_blocks(t_page *page);
-t_block					*find_free_block(t_page_info *pinfo, size_t size);
+void						*malloc_internal(size_t size, t_page_info *pools);
+void						*map_page(size_t size);
+t_page						*init_new_page(t_page_type type, size_t size);
+void						init_page(t_page *page, t_page_type type,
+		size_t size);
+void						init_page_blocks(t_page *page);
+t_block						*find_free_block(t_page_info *pinfo, size_t size);
 
-void					free_internal(void *ptr, t_page_info *pools);
-void					add_block_to_free_list(t_block *fblock, t_page_info *pinfo);
+void						free_internal(void *ptr, t_page_info *pools);
+void						add_block_to_free_list(t_block *fblock,
+		t_page_info *pinfo);
 
 /*
 ** malloc_internal utils
 */
 
-void		remove_block(t_block **free_list, t_block *to_remove);
-void		add_remainder_to_free_list(
+void						remove_block(t_block **free_list,
+		t_block *to_remove);
+void						add_remainder_to_free_list(
 		t_block **free_list,
 		t_block *b,
 		t_block *rmder
 );
+void						append_page_to_pool(t_page_info *pool);
 
 #endif
