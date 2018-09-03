@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 18:54:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 10:41:13 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 13:19:35 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,24 @@ int		check_block_ptr(t_block *b, t_page_info *pinfo)
 	return (0);
 }
 
+t_page	*find_parent_page(t_block *b, t_page *first)
+{
+	while (first)
+	{
+		if (b > (t_block *)first &&
+			b < (t_block *)(first + first->size))
+			break ;
+		first = first->next;
+	}
+	return (first);
+}
+
 void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 {
 	t_page	*p;
 	t_block	*b;
 
-	p = pinfo->start;
-	while (p)
-	{
-		if (fblock > (t_block *)p && fblock < (t_block *)(p + p->size))
-			break ;
-		p = p->next;
-	}
+	p = find_parent_page(fblock, pinfo->start);
 	b = p->free;
 	while (b->size != 0 && b < fblock)
 		b = b->next;
