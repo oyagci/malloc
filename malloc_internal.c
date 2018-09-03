@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 12:05:08 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 12:41:11 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,45 +91,50 @@ void		remove_block(t_block **free_list, t_block *to_remove)
 	}
 }
 
+void		add_remainder_to_free_list(
+		t_block **free_list,
+		t_block *b,
+		t_block *rmder
+)
+{
+	if (b == *free_list)
+		*free_list = rmder;
+	else
+	{
+		b->prev->next = rmder;
+		rmder->prev = b->prev;
+	}
+	rmder->next = b->next;
+	if (rmder->next)
+		rmder->next->prev = rmder;
+}
+
 t_block		*find_free_block(t_page_info *pinfo, size_t size)
 {
 	t_block	*b;
-	t_block	*c;
+	t_block	*rmder;
 
 	if (!pinfo->start)
-	{
-		if ((pinfo->start = init_new_page(TINY, M)) == NULL)
+		if (NULL == (pinfo->start = init_new_page(TINY, M)))
 			return (0);
-	}
 	b = pinfo->start->free;
-	while (b && !(b->size >= size))
+	while (b && b->size < size)
 		b = b->next;
-	if (b && b->size >= size)
+	if (!b)
+		return (0);
+	if (b->size - size > sizeof(t_block) + 16)
 	{
-		if (b->size - size > sizeof(t_block) + 16)
-		{
-			c = (t_block *)((t_byte *)(b + 1) + size);
-			c->size = b->size - size - sizeof(t_block) * 2;
-			if (b == pinfo->start->free)
-				pinfo->start->free = c;
-			else
-			{
-				b->prev->next = c;
-				c->prev = b->prev;
-			}
-			c->next = b->next;
-			if (c->next)
-				c->next->prev = c;
-			b->size = size;
-		}
-		else
-			remove_block(&pinfo->start->free, b);
-		b->prev = NULL;
-		b->next = NULL;
-		b->is_free = 0;
-		return (b);
+		rmder = (t_block *)((t_byte *)(b + 1) + size);
+		rmder->size = b->size - size - sizeof(t_block) * 2;
+		b->size = size;
+		add_remainder_to_free_list(&pinfo->start->free, b, rmder);
 	}
-	return (0);
+	else
+		remove_block(&pinfo->start->free, b);
+	b->prev = NULL;
+	b->next = NULL;
+	b->is_free = 0;
+	return (b);
 }
 
 void		*malloc_internal(size_t size, t_page_info *pools)
