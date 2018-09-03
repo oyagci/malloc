@@ -6,7 +6,7 @@
 #    By: oyagci <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 13:09:17 by oyagci            #+#    #+#              #
-#    Updated: 2018/08/25 15:34:07 by oyagci           ###   ########.fr        #
+#    Updated: 2018/09/03 12:49:18 by oyagci           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,14 @@ NAME		= libft_malloc_$(HOSTTYPE).so
 
 CFLAGS		= -Wall -Wextra -Werror -g
 
-SOURCES		= malloc.c 		\
-		  free.c		\
-		  realloc.c		\
-		  show_alloc_mem.c	\
-		  malloc_internal.c	\
-		  free_internal.c
+SOURCES		= malloc.c 				\
+		  free.c					\
+		  realloc.c					\
+		  show_alloc_mem.c			\
+		  malloc_internal.c			\
+		  free_internal.c 			\
+		  malloc_internal_util.c	\
+		  init.c
 
 DEPS		= malloc.h
 

@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 11:12:19 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 10:41:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 12:47:32 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,16 @@ t_block					*find_free_block(t_page_info *pinfo, size_t size);
 
 void					free_internal(void *ptr, t_page_info *pools);
 void					add_block_to_free_list(t_block *fblock, t_page_info *pinfo);
+
+/*
+** malloc_internal utils
+*/
+
+void		remove_block(t_block **free_list, t_block *to_remove);
+void		add_remainder_to_free_list(
+		t_block **free_list,
+		t_block *b,
+		t_block *rmder
+);
 
 #endif
