@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/01 16:19:52 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 10:14:03 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,13 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 	return (0);
 }
 
-void		*malloc_internal(size_t size)
+void		*malloc_internal(size_t size, t_page_info *pools)
 {
 	t_block	*b;
 
 	size = round_up(size, TINY_RES);
 	if (size > TINY && size < SMALL)
 		size = round_up(size, SMALL_RES);
-	b = find_free_block(&g_pools[0], size);
+	b = find_free_block(pools, size);
 	return (b ? b + 1 : 0);
 }

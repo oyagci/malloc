@@ -3,7 +3,8 @@
 
 Test(free_internal, basic_tiny)
 {
-	int		*p = malloc_internal(sizeof(int));
+	t_page_info	pools[3] = { 0, 0, 0 };
+	int		*p = malloc_internal(sizeof(int), pools);
 	t_block	*b;
 
 	cr_assert(p != NULL);
@@ -14,12 +15,13 @@ Test(free_internal, basic_tiny)
 
 Test(free_internal, basic_two)
 {
+	t_page_info	pools[3] = { 0, 0, 0 };
 	int		*a;
 	int		*b;
 	t_block	*block;
 
-	a = malloc_internal(sizeof(int));
-	b = malloc_internal(sizeof(int));
+	a = malloc_internal(sizeof(int), pools);
+	b = malloc_internal(sizeof(int), pools);
 	cr_assert(a && b);
 
 	free_internal(a);
@@ -118,14 +120,16 @@ Test(add_block_to_free_list, basic_reverse)
 
 Test(free_internal, invalid_address)
 {
-	malloc_internal(16);
-	malloc_internal(16);
-	malloc_internal(16);
-	malloc_internal(16);
+	t_page_info	pools[3] = { 0, 0, 0 };
+	malloc_internal(16, pools);
+	malloc_internal(16, pools);
+	malloc_internal(16, pools);
+	malloc_internal(16, pools);
 	free_internal((void*)(-1));
 }
 
 Test(free_internal, null_value)
 {
+	t_page_info	pools[3] = { 0, 0, 0 };
 	free_internal(0);
 }
