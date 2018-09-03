@@ -86,50 +86,20 @@ Test(add_block_to_free_list, basic_reverse)
 	cr_assert(pinfo.start->free->next == p[6]);
 }
 
-Test(free_internal, basic_tiny)
-{
-	t_page_info	pools[3] = { 0, 0, 0 };
-	int		*p = malloc_internal(sizeof(int), pools);
-	t_block	*b;
-
-	cr_assert(p != NULL);
-	free_internal(p);
-	b = (t_block *)p - 1;
-	cr_assert(b->is_free == 1);
-}
-
-Test(free_internal, basic_two)
-{
-	t_page_info	pools[3] = { 0, 0, 0 };
-	int		*a;
-	int		*b;
-	t_block	*block;
-
-	a = malloc_internal(sizeof(int), pools);
-	b = malloc_internal(sizeof(int), pools);
-	cr_assert(a && b);
-
-	free_internal(a);
-	block = (t_block *) a - 1;
-	cr_assert(block->is_free = 1);
-
-	free_internal(b);
-	block = (t_block *) b - 1;
-	cr_assert(block->is_free = 1);
-}
-
 Test(free_internal, invalid_address)
 {
 	t_page_info	pools[3] = { 0, 0, 0 };
+
 	malloc_internal(16, pools);
 	malloc_internal(16, pools);
 	malloc_internal(16, pools);
 	malloc_internal(16, pools);
-	free_internal((void*)(-1));
+	free_internal((void*)(-1), pools);
 }
 
 Test(free_internal, null_value)
 {
 	t_page_info	pools[3] = { 0, 0, 0 };
-	free_internal(0);
+
+	free_internal(0, pools);
 }

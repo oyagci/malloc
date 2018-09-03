@@ -6,13 +6,15 @@
 /*   By: oyagci </var/spool/mail/oyagci>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 13:15:32 by oyagci            #+#    #+#             */
-/*   Updated: 2018/08/25 13:15:58 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 10:43:29 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	free(void *p)
+extern t_page_info	g_pools[3];
+
+void				free(void *p)
 {
-	free_internal(p);
+	free_internal(p, g_pools);
 }

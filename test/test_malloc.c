@@ -32,7 +32,7 @@ Test(malloc, malloc__free___bigger_malloc)
 	cr_assert(p != 0);
 	*p = 42;
 
-	free_internal(p);
+	free_internal(p, pools);
 
 	p = malloc_internal(32, pools);
 	cr_assert(p != 0);

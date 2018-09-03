@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 18:54:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/01 12:25:38 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 10:41:13 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 	}
 }
 
-void	free_internal(void *ptr)
+void	free_internal(void *ptr, t_page_info *pools)
 {
 	t_block	*ptr_b;
 
 	if (!ptr)
 		return ;
 	ptr_b = (t_block *)ptr - 1;
-	if (!check_block_ptr(ptr_b, &g_pools[0]))
+	if (!check_block_ptr(ptr_b, pools))
 		return ;
 	ptr_b->is_free = 1;
-	add_block_to_free_list(ptr_b, &g_pools[0]);
+	add_block_to_free_list(ptr_b, pools);
 }

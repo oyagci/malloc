@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 11:12:19 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 09:59:50 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/03 10:41:39 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void					init_page(t_page *page, t_page_type type, size_t size);
 void					init_page_blocks(t_page *page);
 t_block					*find_free_block(t_page_info *pinfo, size_t size);
 
-void					free_internal(void *ptr);
+void					free_internal(void *ptr, t_page_info *pools);
 void					add_block_to_free_list(t_block *fblock, t_page_info *pinfo);
 
 #endif
