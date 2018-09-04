@@ -62,7 +62,7 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 			break ;
 		p = p->next;
 	}
-	if (!b)
+	if (!b || b->size == 0)
 		return (0);
 	if (b->size - size > sizeof(t_block) + 16)
 	{
@@ -87,6 +87,7 @@ void		append_page_to_pool(t_page_info *pool)
 	while (p->next)
 		p = p->next;
 	p->next = init_new_page(pool->type, pool->start->size);
+	p->next->prev = p;
 }
 
 void		*malloc_internal(size_t size, t_page_info *pools)

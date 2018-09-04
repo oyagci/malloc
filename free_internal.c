@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 18:54:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 13:19:35 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/04 16:33:59 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_page	*find_parent_page(t_block *b, t_page *first)
 	while (first)
 	{
 		if (b > (t_block *)first &&
-			b < (t_block *)(first + first->size))
-			break ;
+			b < (t_block *)((t_byte *)first + first->size))
+			return (first);
 		first = first->next;
 	}
 	return (first);
@@ -51,13 +51,13 @@ void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 	t_page	*p;
 	t_block	*b;
 
-	p = find_parent_page(fblock, pinfo->start);
+	if (0 == (p = find_parent_page(fblock, pinfo->start)))
+		return ;
 	b = p->free;
 	while (b->size != 0 && b < fblock)
 		b = b->next;
 	if (p->free == b)
 	{
-		b->next = fblock;
 		fblock->next = b;
 		fblock->next->prev = fblock;
 		p->free = fblock;
@@ -65,9 +65,9 @@ void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 	else
 	{
 		fblock->prev = b->prev;
-		b->prev->next = fblock;
-		b->prev = fblock;
+		fblock->prev->next = fblock;
 		fblock->next = b;
+		b->prev = fblock;
 	}
 }
 

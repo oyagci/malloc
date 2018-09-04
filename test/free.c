@@ -86,6 +86,36 @@ Test(add_block_to_free_list, basic_reverse)
 	cr_assert(pinfo.start->free->next == p[6]);
 }
 
+Test(add_block_to_free_list, prev_value)
+{
+	t_page_info	pinfo;
+	void		*p[10];
+
+	pinfo.start = init_new_page(TINY, M);
+	cr_assert(pinfo.start);
+
+	for (int i = 0; i < 10; i++)
+	{
+		p[i] = find_free_block(&pinfo, 16);
+		cr_assert(p[i]);
+	}
+	add_block_to_free_list(p[6], &pinfo);
+	cr_assert(p[6] == pinfo.start->free);
+
+	add_block_to_free_list(p[5], &pinfo);
+	cr_assert(p[5] == pinfo.start->free);
+	cr_assert(pinfo.start->free->next == p[6]);
+
+	t_block	*b;
+
+	b = (t_block *)(pinfo.start + 1);
+	while (b->size != 0)
+	{
+		cr_assert(b->prev != b->next && b->next != 0);
+		b = (t_block *)((t_byte *)(b + 1) + b->size);
+	}
+}
+
 Test(free_internal, invalid_address)
 {
 	t_page_info	pools[3] = { 0, 0, 0 };

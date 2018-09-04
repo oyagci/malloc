@@ -18,11 +18,13 @@ Test(malloc_internal, append_page_to_pool)
 	cr_assert(pools[0].start->next == 0);
 	append_page_to_pool(pools);
 	cr_assert(pools[0].start->next != 0);
+	cr_assert(pools[0].start->prev == 0);
 	cr_assert(pools[0].start->next->size == M);
 	cr_assert(pools[0].start->next->type == TINY);
 
 	append_page_to_pool(pools);
 	cr_assert(pools[0].start->next->next != 0);
+	cr_assert(pools[0].start->next->prev != 0);
 }
 
 Test(malloc_internal, full_page)
