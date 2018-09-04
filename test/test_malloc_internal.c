@@ -44,13 +44,6 @@ Test(malloc_internal, full_page)
 	cr_assert(pools[0].start->free->size == 0);
 	cr_assert(pools[0].start->free->is_free == 0);
 
-	t_block	*a = pools[0].start->free->next;
-	while (a)
-	{
-		cr_assert(a->prev);
-		a = a->next;
-	}
-
 	void *p2 = malloc_internal(16, pools);
 
 	cr_assert(p2 != p);
