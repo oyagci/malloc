@@ -6,13 +6,15 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 18:54:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/05 13:39:15 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/05 16:31:34 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include <pthread.h>
 
-extern t_page_info	g_pools[3];
+extern pthread_mutex_t	g_lock;
+extern t_page_info		g_pools[3];
 
 int		check_block_ptr(t_block *b, t_page_info *pinfo)
 {
@@ -71,23 +73,20 @@ void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 	}
 }
 
-#include <pthread.h>
-extern pthread_mutex_t lock;
-
 void	free_internal(void *ptr, t_page_info *pools)
 {
 	t_block	*ptr_b;
 
 	if (!ptr)
 		return ;
-	pthread_mutex_lock(&lock);
+	pthread_mutex_lock(&g_lock);
 	ptr_b = (t_block *)ptr - 1;
 	if (!check_block_ptr(ptr_b, pools))
 	{
-		pthread_mutex_unlock(&lock);
+		pthread_mutex_unlock(&g_lock);
 		return ;
 	}
 	ptr_b->is_free = 1;
 	add_block_to_free_list(ptr_b, pools);
-	pthread_mutex_unlock(&lock);
+	pthread_mutex_unlock(&g_lock);
 }
