@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 13:21:07 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/05 11:42:25 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/05 12:49:40 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,7 @@ void						add_remainder_to_free_list(
 		t_block *rmder
 );
 void						append_page_to_pool(t_page_info *pool);
+
+int							round_up(int num, int multiple);
 
 #endif
