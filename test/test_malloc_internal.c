@@ -1,6 +1,7 @@
 #include "/Users/oyagci/.brew/include/criterion/criterion.h"
 #include "../malloc.h"
 #include <string.h>
+#include <unistd.h>
 
 Test(malloc_internal, append_page_to_pool)
 {
@@ -51,4 +52,18 @@ Test(malloc_internal, full_page)
 	cr_assert(p2 != p);
 	cr_assert(p2 != 0);
 	cr_assert(((t_block *)p2 - 1)->size != 0);
+}
+
+Test(malloc_internal, large)
+{
+	t_page_info	pools[3];
+	t_block		*b;
+
+	bzero(pools, sizeof(t_page_info) * 3);
+
+	void *p = malloc_internal(LARGE * 2, pools);
+	cr_assert(p != 0);
+
+	b = (t_block *)p - 1;
+	cr_assert(b->size == (size_t)round_up(LARGE * 2, getpagesize()));
 }

@@ -41,3 +41,12 @@ Test(malloc_large, three_pages)
 	cr_assert(p3 != p);
 	cr_assert(p3 != p2);
 }
+
+Test(malloc_large, very)
+{
+	t_page_info	pools[3];
+
+	bzero(pools,sizeof(t_page_info) * 3);
+	void *p = malloc_large(pools + 2, LARGE * 10);
+	cr_assert(p != 0);
+}
