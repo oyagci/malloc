@@ -6,7 +6,7 @@
 #    By: oyagci <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 13:09:17 by oyagci            #+#    #+#              #
-#    Updated: 2018/09/05 11:42:53 by oyagci           ###   ########.fr        #
+#    Updated: 2018/09/05 15:58:25 by oyagci           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SOURCES		= malloc.c 				\
 		  free_internal.c 			\
 		  malloc_internal_util.c	\
 		  malloc_large.c			\
-		  init.c
+		  init.c				\
+		  calloc.c
 
 DEPS		= malloc.h
 
