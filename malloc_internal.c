@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/05 10:54:40 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/05 11:42:01 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,6 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 	t_block	*b;
 	t_block	*rmder;
 
-	/* TODO: Initialisation should not happen here */
-	if (!pinfo->start)
-		if (NULL == (pinfo->start = init_new_page(TINY, M)))
-			return (0);
 	p = pinfo->start;
 	while (p)
 	{
@@ -90,18 +86,40 @@ void		append_page_to_pool(t_page_info *pool)
 	p->next->prev = p;
 }
 
+int			malloc_init(t_page_info *pools)
+{
+	if (!pools[0].start)
+		if (NULL == (pools[0].start = init_new_page(TINY, M)))
+			return (0);
+	if (!pools[1].start)
+		if (NULL == (pools[1].start = init_new_page(SMALL, N)))
+			return (0);
+	return (1);
+}
+
 void		*malloc_internal(size_t size, t_page_info *pools)
 {
-	t_block	*b;
+	t_block		*b;
+	t_page_info	*pool;
 
+	if (!malloc_init(pools))
+		return (0);
+	if (size > SMALL)
+		return (malloc_large(pools + 2, size));
 	size = round_up(size, TINY_RES);
 	if (size > TINY && size < SMALL)
 		size = round_up(size, SMALL_RES);
-	b = find_free_block(pools, size);
+	if (size < TINY)
+		pool = pools;
+	else if (size < SMALL)
+		pool = pools + 1;
+	else
+		pool = pools + 2;
+	b = find_free_block(pool, size);
 	if (!b)
 	{
-		append_page_to_pool(pools);
-		b = find_free_block(pools, size);
+		append_page_to_pool(pool);
+		b = find_free_block(pool, size);
 	}
 	return (b ? b + 1 : 0);
 }

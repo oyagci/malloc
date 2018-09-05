@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 13:21:07 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 13:38:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/05 11:42:25 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void						*calloc(size_t size, size_t n);
 void						*realloc(void *ptr, size_t size);
 
 void						*malloc_internal(size_t size, t_page_info *pools);
+void						*malloc_large(t_page_info *pool, size_t size);
 void						*map_page(size_t size);
 t_page						*init_new_page(t_page_type type, size_t size);
 void						init_page(t_page *page, t_page_type type,
