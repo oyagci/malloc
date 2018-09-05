@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/05 11:42:01 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/05 15:59:47 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,34 @@ int			malloc_init(t_page_info *pools)
 	return (1);
 }
 
+#include <pthread.h>
+
+int					mutex_is_initialized = 0;
+pthread_mutex_t		lock;
+
 void		*malloc_internal(size_t size, t_page_info *pools)
 {
 	t_block		*b;
 	t_page_info	*pool;
 
+	if (!mutex_is_initialized)
+	{
+		pthread_mutex_init(&lock, NULL);
+		mutex_is_initialized = 1;
+	}
+	pthread_mutex_lock(&lock);
+
 	if (!malloc_init(pools))
+	{
+		pthread_mutex_unlock(&lock);
 		return (0);
+	}
 	if (size > SMALL)
-		return (malloc_large(pools + 2, size));
+	{
+		void *p = malloc_large(pools + 2, size);
+		pthread_mutex_unlock(&lock);
+		return (p);
+	}
 	size = round_up(size, TINY_RES);
 	if (size > TINY && size < SMALL)
 		size = round_up(size, SMALL_RES);
@@ -121,5 +140,6 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 		append_page_to_pool(pool);
 		b = find_free_block(pool, size);
 	}
+	pthread_mutex_unlock(&lock);
 	return (b ? b + 1 : 0);
 }
