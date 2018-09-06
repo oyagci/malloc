@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 13:21:07 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/06 15:44:18 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/06 16:40:35 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # define M			2097152
 # define N			16777216
 # define TINY		992
-# define SMALL		126992
-# define LARGE		126993
+# define SMALL		126976
+# define LARGE		126977
 
 # define TINY_RES	16
 # define SMALL_RES	512

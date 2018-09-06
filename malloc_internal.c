@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/06 16:02:29 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/06 16:36:01 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,14 +118,15 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 		pthread_mutex_unlock(&g_lock);
 		return (0);
 	}
-	size = round_up(size, TINY_RES);
-	if (size > TINY && size <= SMALL)
+	if (size <= TINY)
+		size = round_up(size, TINY_RES);
+	else if (size > TINY && size <= SMALL)
 		size = round_up(size, SMALL_RES);
 	if (size <= TINY)
 		pool = pools;
 	else if (size <= SMALL)
 		pool = pools + 1;
-	if (size > SMALL)
+	else
 	{
 		void *p = malloc_large(pools + 2, size);
 		pthread_mutex_unlock(&g_lock);
