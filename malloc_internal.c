@@ -51,6 +51,7 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 	t_block	*b;
 	t_block	*rmder;
 
+	b = 0;
 	p = pinfo->start;
 	while (p)
 	{
