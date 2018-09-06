@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/05 16:32:19 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/06 15:43:58 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,11 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 		return (p);
 	}
 	size = round_up(size, TINY_RES);
-	if (size > TINY && size < SMALL)
+	if (size > TINY && size <= SMALL)
 		size = round_up(size, SMALL_RES);
-	if (size < TINY)
+	if (size <= TINY)
 		pool = pools;
-	else if (size < SMALL)
+	else if (size <= SMALL)
 		pool = pools + 1;
 	else
 		pool = pools + 2;
