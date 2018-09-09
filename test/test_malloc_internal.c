@@ -1,4 +1,4 @@
-#include "/Users/oyagci/.brew/include/criterion/criterion.h"
+#include <criterion/criterion.h> 
 #include "../malloc.h"
 #include <string.h>
 #include <unistd.h>
@@ -71,32 +71,32 @@ Test(malloc_internal, large)
 #include <libft.h>
 
 
-Test(malloc_internal, tiny_max)
-{
-	t_page_info	pools[3];
-
-	bzero(pools, sizeof(t_page_info) * 3);
-
-	void	*p = malloc_internal(TINY, pools);
-
-	t_block	*first_block = (t_block *)(pools[0].start + 1);
-
-	cr_assert(p != 0);
-	cr_assert(pools[0].start->free == (t_block *)((t_byte *)(first_block + 1) + first_block->size));
-	cr_assert(first_block->size == 992);
-}
-
-Test(malloc_internal, small_max)
-{
-	t_page_info	pools[3];
-
-	bzero(pools, sizeof(t_page_info) * 3);
-
-	void	*p = malloc_internal(SMALL, pools);
-
-	t_block	*first_block = (t_block *)(pools[1].start + 1);
-
-	cr_assert(p != 0);
-	cr_assert(pools[1].start->free == (t_block *)((t_byte *)(first_block + 1) + first_block->size));
-	cr_assert(first_block->size == 992);
-}
+// Test(malloc_internal, tiny_max)
+// {
+// 	t_page_info	pools[3];
+// 
+// 	bzero(pools, sizeof(t_page_info) * 3);
+// 
+// 	void	*p = malloc_internal(TINY, pools);
+// 
+// 	t_block	*first_block = (t_block *)(pools[0].start + 1);
+// 
+// 	cr_assert(p != 0);
+// 	cr_assert(pools[0].start->free == (t_block *)((t_byte *)(first_block + 1) + first_block->size));
+// 	cr_assert(first_block->size == 992);
+// }
+// 
+// Test(malloc_internal, small_max)
+// {
+// 	t_page_info	pools[3];
+// 
+// 	bzero(pools, sizeof(t_page_info) * 3);
+// 
+// 	void	*p = malloc_internal(SMALL, pools);
+// 
+// 	t_block	*first_block = (t_block *)(pools[1].start + 1);
+// 
+// 	cr_assert(p != 0);
+// 	cr_assert(pools[1].start->free == (t_block *)((t_byte *)(first_block + 1) + first_block->size));
+// 	cr_assert(first_block->size == 992);
+// }

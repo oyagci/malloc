@@ -118,8 +118,9 @@ Test(add_block_to_free_list, prev_value)
 
 Test(free_internal, invalid_address)
 {
-	t_page_info	pools[3] = { 0, 0, 0 };
+	t_page_info	pools[3];
 
+	bzero(pools, sizeof(t_page_info) * 3);
 	malloc_internal(16, pools);
 	malloc_internal(16, pools);
 	malloc_internal(16, pools);
@@ -129,7 +130,8 @@ Test(free_internal, invalid_address)
 
 Test(free_internal, null_value)
 {
-	t_page_info	pools[3] = { 0, 0, 0 };
+	t_page_info	pools[3];
 
+	bzero(pools, sizeof(t_page_info) * 3);
 	free_internal(0, pools);
 }

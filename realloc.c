@@ -6,25 +6,43 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 13:23:18 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/06 13:42:58 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/09 12:24:01 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include "libft/includes/libft.h"
 
-void	*realloc(void *ptr, size_t size)
+extern t_page_info	g_pools[3];
+
+int					resize_block(t_block *b, size_t s)
 {
+	t_block	*neighboor;
+
+	neighboor = (t_block *)((t_byte *)(b + 1) + b->size);
+
+	if (neighboor->size >= s && neighboor->is_free && neighboor->prev)
+	{
+		neighboor->prev->next = neighboor->next;
+		b->size += neighboor->size + sizeof(t_block);
+		return (1);
+	}
+	return (0);
+}
+
+void				*realloc_internal(void *ptr, size_t size, t_page_info *pools)
+{
+	t_block	*old;
+	void	*newp;
+
 	if (!ptr)
-		return (malloc(size));
-
-	t_block	*old = (t_block *)ptr - 1;
-
+		return (malloc_internal(size, pools));
+	old = (t_block *)ptr - 1;
 	if (old->size >= size)
 		return (ptr);
-
-	void	*newp = malloc(size);
-
+	if (resize_block(old, size))
+		return (ptr);
+	newp = malloc_internal(size, pools);
 	if (newp == 0)
 		return (0);
 	ft_bzero(newp, size);
@@ -32,7 +50,12 @@ void	*realloc(void *ptr, size_t size)
 	return (newp);
 }
 
-void	*reallocf(void *ptr, size_t size)
+void				*realloc(void *ptr, size_t size)
+{
+	return (realloc_internal(ptr, size, g_pools));
+}
+
+void				*reallocf(void *ptr, size_t size)
 {
 	return (realloc(ptr, size));
 }
