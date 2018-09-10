@@ -20,7 +20,7 @@ int					resize_block(t_block *b, size_t s)
 	t_block	*neighboor;
 
 	neighboor = (t_block *)((t_byte *)(b + 1) + b->size);
-	if (neighboor->size >= s
+	if (b->size + neighboor->size + sizeof(t_block) >= s
 		&& neighboor->is_free
 		&& neighboor->prev)
 	{
