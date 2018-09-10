@@ -6,10 +6,11 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/06 16:36:01 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 10:06:12 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/mman.h>
 #include "malloc.h"
 #include <sys/mman.h>
 #include <pthread.h>
