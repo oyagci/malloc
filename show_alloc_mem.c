@@ -6,7 +6,7 @@
 /*   By: oyagci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 12:02:59 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 14:59:05 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 15:33:47 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ void				show_alloc_page(t_page *p)
 {
 	t_block	*b;
 
-	show_page_title(p->type, p);
 	b = (t_block *)(p + 1);
+	if (b->size == 0)
+		return ;
+	show_page_title(p->type, p);
 	while (b->size != 0)
 	{
 		print_addr(b);
