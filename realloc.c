@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 07:02:14 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 16:05:35 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 16:28:03 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,11 @@ int					check_ptr(void *ptr, t_page_info *pools)
 	return (0);
 }
 
-void				*realloc_internal(void *ptr, size_t size, t_page_info *pools)
+void				*realloc_internal(
+		void *ptr,
+		size_t size,
+		t_page_info *pools
+)
 {
 	t_block	*old;
 	void	*newp;
@@ -97,9 +101,4 @@ void				*realloc_internal(void *ptr, size_t size, t_page_info *pools)
 void				*realloc(void *ptr, size_t size)
 {
 	return (realloc_internal(ptr, size, g_pools));
-}
-
-void				*reallocf(void *ptr, size_t size)
-{
-	return (realloc(ptr, size));
 }
