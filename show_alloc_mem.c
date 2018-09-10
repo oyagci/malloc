@@ -6,7 +6,7 @@
 /*   By: oyagci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 12:02:59 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 15:33:47 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 15:39:16 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,16 @@ void				show_alloc_page(t_page *p)
 	show_page_title(p->type, p);
 	while (b->size != 0)
 	{
-		print_addr(b);
-		ft_putstr(" - ");
-		print_addr((t_byte *)(b) + b->size);
-		ft_putstr(" : ");
-		ft_putnbr(b->size);
-		ft_putstr(" octets");
-		ft_putchar('\n');
+		if (!b->is_free)
+		{
+			print_addr(b);
+			ft_putstr(" - ");
+			print_addr((t_byte *)(b) + b->size);
+			ft_putstr(" : ");
+			ft_putnbr(b->size);
+			ft_putstr(" octets");
+			ft_putchar('\n');
+		}
 		b = (t_block *)((t_byte *)(b + 1) + b->size);
 	}
 }
