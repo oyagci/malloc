@@ -15,10 +15,10 @@ echo -- test2:
 ./run.sh /usr/bin/time -l bin/test2
 read
 echo -- test3:
-./run.sh /usr/bin/time -l bin/test3
+./run.sh bin/test3
 read
 echo -- test3bis:
-./run.sh /usr/bin/time -l bin/test3bis
+./run.sh bin/test3bis
 read
 echo -- test4:
-./run.sh /usr/bin/time -l bin/test4
+./run.sh bin/test4

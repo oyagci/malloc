@@ -7,6 +7,7 @@ int main()
 	int i = 0;
 	while (i < 1024)
 	{
+		addr = malloc(1024);
 		i += 1;
 	}
 	return (0);
