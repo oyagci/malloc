@@ -6,7 +6,7 @@
 /*   By: oyagci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 12:02:59 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 10:06:42 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 14:59:05 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,30 @@ void				print_addr(void *addr)
 	print_addr_fd(addr, 1);
 }
 
+void				show_page_title(t_page_type type, void *addr)
+{
+	if (type == TINY)
+		ft_putstr("TINY : ");
+	else if (type == SMALL)
+		ft_putstr("SMALL : ");
+	else if (type == LARGE)
+		ft_putstr("LARGE : ");
+	print_addr(addr);
+	ft_putchar('\n');
+}
 
 void				show_alloc_page(t_page *p)
 {
 	t_block	*b;
 
+	show_page_title(p->type, p);
 	b = (t_block *)(p + 1);
 	while (b->size != 0)
 	{
 		print_addr(b);
 		ft_putstr(" - ");
 		print_addr((t_byte *)(b) + b->size);
-		ft_putstr(" ");
+		ft_putstr(" : ");
 		ft_putnbr(b->size);
 		ft_putstr(" octets");
 		ft_putchar('\n');
@@ -65,16 +77,6 @@ void				show_alloc_pages(t_page *p)
 	}
 }
 
-void				show_page_title(t_page_type type)
-{
-	if (type == TINY)
-		ft_putendl("TINY");
-	else if (type == SMALL)
-		ft_putendl("SMALL");
-	else if (type == LARGE)
-		ft_putendl("LARGE");
-}
-
 void				show_alloc_mem(void)
 {
 	int	i;
@@ -82,7 +84,6 @@ void				show_alloc_mem(void)
 	i = 0;
 	while (i < 3)
 	{
-		show_page_title(g_pools[i].type);
 		show_alloc_pages(g_pools[i].start);
 		i += 1;
 	}
