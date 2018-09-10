@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 07:02:14 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 11:35:12 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 13:35:44 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 #include "libft/includes/libft.h"
 
 extern t_page_info	g_pools[3];
-
-int					resize_block(t_block *b, size_t s)
-{
-	t_block	*neighboor;
-
-	neighboor = (t_block *)((t_byte *)(b + 1) + b->size);
-
-	if (neighboor->size >= s && neighboor->is_free && neighboor->prev)
-	{
-		neighboor->prev->next = neighboor->next;
-		b->size += neighboor->size + sizeof(t_block);
-		return (1);
-	}
-	return (0);
-}
 
 int					is_block_in_page(t_block *block, t_page *page)
 {
@@ -79,8 +64,6 @@ void				*realloc_internal(void *ptr, size_t size, t_page_info *pools)
 		return (0);
 	old = (t_block *)ptr - 1;
 	if (old->size >= size)
-		return (ptr);
-	if (resize_block(old, size))
 		return (ptr);
 	newp = malloc_internal(size, pools);
 	if (newp == 0)
