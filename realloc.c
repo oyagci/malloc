@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 07:02:14 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 10:06:26 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 11:35:12 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,44 @@ int					resize_block(t_block *b, size_t s)
 	return (0);
 }
 
+int					is_block_in_page(t_block *block, t_page *page)
+{
+	t_block	*b;
+
+	b = (t_block *)(page + 1);
+	while (b->size != 0)
+	{
+		if (b == block)
+			return (1);
+		b = (t_block *)((t_byte *)(b + 1) + b->size);
+	}
+	return (0);
+}
+
+int					check_ptr(void *ptr, t_page_info *pools)
+{
+	t_page	*p;
+	t_block	*b;
+	int		i;
+
+	if ((void*)ptr < (void*)sizeof(t_block))
+		return (0);
+	b = (t_block *)ptr - 1;
+	i = 0;
+	while (i < 3)
+	{
+		p = pools[i].start;
+		while (p)
+		{
+			if (is_block_in_page(b, p))
+				return (1);
+			p = p->next;
+		}
+		i += 1;
+	}
+	return (0);
+}
+
 void				*realloc_internal(void *ptr, size_t size, t_page_info *pools)
 {
 	t_block	*old;
@@ -37,6 +75,8 @@ void				*realloc_internal(void *ptr, size_t size, t_page_info *pools)
 
 	if (!ptr)
 		return (malloc_internal(size, pools));
+	if (!check_ptr(ptr, pools))
+		return (0);
 	old = (t_block *)ptr - 1;
 	if (old->size >= size)
 		return (ptr);
