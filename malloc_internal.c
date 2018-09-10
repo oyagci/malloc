@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 15:40:37 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 16:25:14 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 {
 	t_block		*b;
 	t_page_info	*pool;
+	void		*p;
 
 	if (!mutex_is_initialized)
 	{
@@ -114,7 +115,6 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 		mutex_is_initialized = 1;
 	}
 	pthread_mutex_lock(&g_lock);
-
 	if (!malloc_init(pools))
 	{
 		pthread_mutex_unlock(&g_lock);
@@ -130,7 +130,7 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 		pool = pools + 1;
 	else
 	{
-		void *p = malloc_large(pools + 2, size);
+		p = malloc_large(pools + 2, size);
 		pthread_mutex_unlock(&g_lock);
 		return (p);
 	}
