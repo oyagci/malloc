@@ -111,7 +111,8 @@ Test(add_block_to_free_list, prev_value)
 	b = (t_block *)(pinfo.start + 1);
 	while (b->size != 0)
 	{
-		cr_assert(b->prev != b->next && b->next != 0);
+		if (b->next != 0)
+			cr_assert(b->prev != b->next);
 		b = (t_block *)((t_byte *)(b + 1) + b->size);
 	}
 }
