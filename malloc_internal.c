@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 10:06:12 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/10 15:40:37 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 	{
 		rmder = (t_block *)((t_byte *)(b + 1) + size);
 		rmder->size = b->size - size - sizeof(t_block);
+		rmder->is_free = 1;
 		b->size = size;
 		add_remainder_to_free_list(&p->free, b, rmder);
 	}
