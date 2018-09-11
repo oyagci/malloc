@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 16:25:14 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/11 15:30:43 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void		*map_page(size_t size)
 		0, 0);
 	return (p);
 }
+
+#include <libft.h>
+#include <assert.h>
 
 t_block		*find_free_block(t_page_info *pinfo, size_t size)
 {
@@ -95,13 +98,21 @@ void		append_page_to_pool(t_page_info *pool)
 int			malloc_init(t_page_info *pools)
 {
 	if (!pools[0].start)
+	{
+		pools[0].type = TINY;
 		if (NULL == (pools[0].start = init_new_page(TINY, M)))
 			return (0);
+	}
 	if (!pools[1].start)
+	{
+		pools[1].type = SMALL;
 		if (NULL == (pools[1].start = init_new_page(SMALL, N)))
 			return (0);
+	}
 	return (1);
 }
+
+#include <libft.h>
 
 void		*malloc_internal(size_t size, t_page_info *pools)
 {
@@ -122,7 +133,7 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 	}
 	if (size <= TINY)
 		size = round_up(size, TINY_RES);
-	else if (size > TINY && size <= SMALL)
+	if (size > TINY && size <= SMALL)
 		size = round_up(size, SMALL_RES);
 	if (size <= TINY)
 		pool = pools;

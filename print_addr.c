@@ -6,7 +6,7 @@
 /*   By: oyagci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:20:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 16:20:52 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/11 10:39:47 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void				print_addr_fd(void *addr, int fd)
 
 	len = 0;
 	nb = (size_t)addr;
-	buffer[0] = 0;
+	ft_bzero(buffer, sizeof(buffer));
 	ft_putstr_fd("0x", fd);
 	if (nb == 0)
 		ft_putchar_fd('0', fd);

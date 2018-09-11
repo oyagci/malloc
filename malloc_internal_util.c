@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 12:46:18 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/03 16:30:21 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/11 15:11:26 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void		remove_block(t_block **free_list, t_block *to_remove)
 {
 	if (to_remove == *free_list)
+	{
 		*free_list = to_remove->next;
+		to_remove->next->prev = 0;
+	}
 	else
 	{
 		if (to_remove->prev)

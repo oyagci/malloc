@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 07:02:14 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 16:28:03 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/11 15:12:36 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 extern t_page_info	g_pools[3];
 
-int					resize_block(t_block *b, size_t s)
+int					expand_block(t_block *b, size_t s)
 {
 	t_block	*neighboor;
 
@@ -24,6 +24,7 @@ int					resize_block(t_block *b, size_t s)
 		&& neighboor->is_free
 		&& neighboor->prev)
 	{
+		neighboor->is_free = 0;
 		if (neighboor->prev)
 			neighboor->prev->next = neighboor->next;
 		if (neighboor->next)
@@ -88,7 +89,7 @@ void				*realloc_internal(
 	old = (t_block *)ptr - 1;
 	if (old->size >= size)
 		return (ptr);
-	if (resize_block(old, size))
+	if (expand_block(old, size))
 		return (ptr);
 	newp = malloc_internal(size, pools);
 	if (newp == 0)
