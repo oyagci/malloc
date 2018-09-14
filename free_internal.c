@@ -43,7 +43,7 @@ int		check_block_ptr(t_block *b, t_page_info *pinfo)
 	return (0);
 }
 
-t_page	*find_parent_page(t_block *b, t_page *first)
+t_page	*is_in_pool(t_block *b, t_page *first)
 {
 	while (first)
 	{
@@ -55,12 +55,27 @@ t_page	*find_parent_page(t_block *b, t_page *first)
 	return (first);
 }
 
+t_page	*find_parent_page(t_block *b, t_page_info *pools)
+{
+	t_page	*page;
+	int i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (NULL != (page = is_in_pool(b, pools[i].start)))
+			return (page);
+		i += 1;
+	}
+	return (0);
+}
+
 void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 {
 	t_page	*p;
 	t_block	*b;
 
-	if (0 == (p = find_parent_page(fblock, pinfo->start)))
+	if (0 == (p = find_parent_page(fblock, pinfo)))
 		return ;
 	b = p->free;
 	while (b->size != 0 && b < fblock)
@@ -79,8 +94,6 @@ void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 		b->prev = fblock;
 	}
 }
-
-#include <libft.h>
 
 void	unmap_free_pages(t_page_info *pools)
 {
@@ -125,7 +138,7 @@ void	unmap_free_pages(t_page_info *pools)
 						if (p->next)
 							p->next->prev = 0;
 					}
-					ft_putendl("munmap");
+//					ft_putendl("UNMAP");
 					munmap(p, p->size);
 				}
 				p = next;
@@ -148,11 +161,9 @@ void	free_internal(void *ptr, t_page_info *pools)
 		pthread_mutex_unlock(&g_lock);
 		return ;
 	}
-	ft_putstr("freeing ");
-	print_addr(ptr);
-	ft_putchar('\n');
 	ptr_b->is_free = 1;
 	add_block_to_free_list(ptr_b, pools);
 	unmap_free_pages(pools);
+//	merge_free_blocks(pools);
 	pthread_mutex_unlock(&g_lock);
 }

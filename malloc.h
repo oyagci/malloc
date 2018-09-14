@@ -6,14 +6,19 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 13:21:07 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 16:21:30 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/13 15:37:37 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 
+#define LOG(x) ft_putendl_fd(x, 2)
+
 # include <string.h>
+# include <pthread.h>
+# include <sys/mman.h>
+# include <libft.h>
 
 # define M			2097152
 # define N			16777216
@@ -82,6 +87,8 @@ void						add_remainder_to_free_list(
 		t_block *b,
 		t_block *rmder
 );
+void						merge_free_blocks(t_page_info *pools);
+
 void						append_page_to_pool(t_page_info *pool);
 
 int							round_up(int num, int multiple);

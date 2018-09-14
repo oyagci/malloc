@@ -6,12 +6,11 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 07:02:14 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/11 15:12:36 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/12 15:52:19 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include "libft/includes/libft.h"
 
 extern t_page_info	g_pools[3];
 

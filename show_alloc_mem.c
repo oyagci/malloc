@@ -6,12 +6,11 @@
 /*   By: oyagci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 12:02:59 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/10 16:20:54 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/13 12:09:47 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include "libft/includes/libft.h"
 
 extern t_page_info	g_pools[3];
 
@@ -24,6 +23,8 @@ void				show_page_title(t_page_type type, void *addr)
 	else if (type == LARGE)
 		ft_putstr("LARGE : ");
 	print_addr(addr);
+	ft_putstr(" - ");
+	print_addr(addr + ((t_page*)addr)->size);
 	ft_putchar('\n');
 }
 

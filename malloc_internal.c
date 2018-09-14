@@ -6,14 +6,11 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/11 15:30:43 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/13 10:23:55 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/mman.h>
 #include "malloc.h"
-#include <sys/mman.h>
-#include <pthread.h>
 
 int					mutex_is_initialized = 0;
 pthread_mutex_t		g_lock;
@@ -45,9 +42,6 @@ void		*map_page(size_t size)
 		0, 0);
 	return (p);
 }
-
-#include <libft.h>
-#include <assert.h>
 
 t_block		*find_free_block(t_page_info *pinfo, size_t size)
 {
@@ -111,8 +105,6 @@ int			malloc_init(t_page_info *pools)
 	}
 	return (1);
 }
-
-#include <libft.h>
 
 void		*malloc_internal(size_t size, t_page_info *pools)
 {
