@@ -136,3 +136,42 @@ Test(free_internal, null_value)
 	bzero(pools, sizeof(t_page_info) * 3);
 	free_internal(0, pools);
 }
+
+Test(free_internal, free_list_state__simple)
+{
+	t_page_info	pools[3];
+	t_block		*b;
+
+	bzero(pools, sizeof(t_page_info) * 3);
+	cr_assert(malloc_init(pools) != 0);
+
+	void *p1 = malloc_internal(16, pools);
+
+	add_block_to_free_list((t_block *)p1 - 1, pools);
+
+	t_block *f = pools[0].start->free;
+
+	cr_assert(pools[0].start->next == 0);
+	cr_assert(f == (t_block *)p1 - 1);
+}
+
+Test(free_internal, free_list_state)
+{
+	t_page_info	pools[3];
+
+	bzero(pools, sizeof(t_page_info) * 3);
+	cr_assert(malloc_init(pools) != 0);
+
+	void *p1 = malloc_internal(16, pools);
+	void *p2 = malloc_internal(16, pools);
+	void *p3 = malloc_internal(32, pools);
+
+	add_block_to_free_list((t_block *)p1 - 1, pools);
+	add_block_to_free_list((t_block *)p2 - 1, pools);
+
+	t_block *f = pools[0].start->free;
+
+	cr_assert(pools[0].start->next == 0);
+	cr_assert(f == (t_block *)p1 - 1);
+	cr_assert(f->next == (t_block *)p2 - 1);
+}
