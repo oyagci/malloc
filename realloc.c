@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 07:02:14 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/12 15:52:19 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/17 12:48:36 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ int					expand_block(t_block *b, size_t s)
 		&& neighboor->is_free
 		&& neighboor->prev)
 	{
-		neighboor->is_free = 0;
 		if (neighboor->prev)
 			neighboor->prev->next = neighboor->next;
 		if (neighboor->next)
 			neighboor->next->prev = neighboor->prev;
-		b->size += neighboor->size + sizeof(t_block);
+		b->size = b->size + neighboor->size + sizeof(t_block);
 		return (1);
 	}
 	return (0);
