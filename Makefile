@@ -6,7 +6,7 @@
 #    By: oyagci <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 13:09:17 by oyagci            #+#    #+#              #
-#    Updated: 2018/09/13 12:54:15 by oyagci           ###   ########.fr        #
+#    Updated: 2018/09/18 10:56:42 by oyagci           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SOURCES		= malloc.c 				\
 		  init.c					\
 		  calloc.c					\
 		  print_addr.c				\
-		  merge_free_blocks.c
+		  merge_free_blocks.c		\
+		  realloc_internal.c
 
 DEPS		= malloc.h
 

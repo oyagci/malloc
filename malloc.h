@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 13:21:07 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/13 15:37:37 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/18 10:55:05 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,19 @@ void						*calloc(size_t size, size_t n);
 void						*realloc(void *ptr, size_t size);
 
 void						*malloc_internal(size_t size, t_page_info *pools);
+void						*realloc_internal(void *ptr, size_t size,
+	t_page_info *pools);
 void						*malloc_large(t_page_info *pool, size_t size);
 void						*map_page(size_t size);
 t_page						*init_new_page(t_page_type type, size_t size);
 void						init_page(t_page *page, t_page_type type,
-		size_t size);
+	size_t size);
 void						init_page_blocks(t_page *page);
 t_block						*find_free_block(t_page_info *pinfo, size_t size);
 
 void						free_internal(void *ptr, t_page_info *pools);
 void						add_block_to_free_list(t_block *fblock,
-		t_page_info *pinfo);
+	t_page_info *pinfo);
 
 /*
 ** malloc_internal utils
