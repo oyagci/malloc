@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 18:54:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/17 15:22:16 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/18 16:26:10 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 	{
 		fblock->next = b;
 		fblock->next->prev = fblock;
+		fblock->prev = 0;
 		p->free = fblock;
 	}
 	else
