@@ -6,13 +6,14 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 10:54:07 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/18 10:55:42 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/19 10:18:08 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-extern t_page_info	g_pools[3];
+extern pthread_mutex_t	g_lock;
+extern t_page_info		g_pools[3];
 
 int					expand_block(t_block *b, size_t s)
 {
@@ -87,8 +88,13 @@ void				*realloc_internal(
 	old = (t_block *)ptr - 1;
 	if (old->size >= size)
 		return (ptr);
+	pthread_mutex_lock(&g_lock);
 	if (expand_block(old, size))
+	{
+		pthread_mutex_unlock(&g_lock);
 		return (ptr);
+	}
+	pthread_mutex_unlock(&g_lock);
 	newp = malloc_internal(size, pools);
 	if (newp == 0)
 		return (0);
