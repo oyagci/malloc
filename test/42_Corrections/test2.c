@@ -1,7 +1,5 @@
 #include <stdlib.h>
 
-void	show_alloc_mem();
-
 int main(int argc, char *argv[])
 {
 	int   i;
@@ -15,6 +13,5 @@ int main(int argc, char *argv[])
 		free(addr);
 		i += 1;
 	}
-	show_alloc_mem();
 	return 0;
 }
