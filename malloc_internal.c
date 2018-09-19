@@ -119,7 +119,7 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 	size = (size == 0 ? 1 : size);
 	if (size <= TINY)
 		size = round_up(size, TINY_RES);
-	if (size > TINY && size <= SMALL)
+	else if (size <= SMALL)
 		size = round_up(size, SMALL_RES);
 	if (size <= TINY)
 		pool = pools;
