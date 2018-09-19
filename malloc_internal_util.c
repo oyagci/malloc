@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 12:46:18 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/18 13:51:08 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/19 16:02:46 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,23 @@ void		add_remainder_to_free_list(
 	rmder->next = big->next;
 	if (rmder->next)
 		rmder->next->prev = rmder;
+}
+
+size_t		get_round_size(size_t size)
+{
+	size = (size == 0 ? 1 : size);
+	if (size <= TINY)
+		size = round_up(size, TINY_RES);
+	else if (size <= SMALL)
+		size = round_up(size, SMALL_RES);
+	return (size);
+}
+
+t_page_info	*get_pool_for_size(size_t size, t_page_info *pools)
+{
+	if (size <= TINY)
+		return (pools);
+	else if (size <= SMALL)
+		return (pools + 1);
+	return (0);
 }

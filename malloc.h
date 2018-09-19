@@ -99,4 +99,7 @@ int							malloc_init(t_page_info *pools);
 void						print_addr_fd(void *addr, int fd);
 void						print_addr(void *addr);
 
+size_t						get_round_size(size_t size);
+t_page_info					*get_pool_for_size(size_t size, t_page_info *pools);
+
 #endif
