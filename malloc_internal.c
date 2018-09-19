@@ -6,14 +6,13 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/13 10:23:55 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/19 12:24:30 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-int					mutex_is_initialized = 0;
-pthread_mutex_t		g_lock;
+pthread_mutex_t		g_lock = PTHREAD_MUTEX_INITIALIZER;
 t_page_info			g_pools[3];
 
 int			round_up(int num, int multiple)
@@ -112,11 +111,6 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 	t_page_info	*pool;
 	void		*p;
 
-	if (!mutex_is_initialized)
-	{
-		pthread_mutex_init(&g_lock, NULL);
-		mutex_is_initialized = 1;
-	}
 	pthread_mutex_lock(&g_lock);
 	if (!malloc_init(pools))
 	{
