@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 14:47:24 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/19 12:24:30 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/19 14:19:21 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 	}
 	if (!b || b->size == 0)
 		return (0);
-	if (b->size - size > sizeof(t_block) + TINY_RES)
+	if (pinfo->type == TINY && b->size - size > sizeof(t_block) + TINY_RES)
 	{
 		rmder = (t_block *)((t_byte *)(b + 1) + size);
 		rmder->size = b->size - size - sizeof(t_block);

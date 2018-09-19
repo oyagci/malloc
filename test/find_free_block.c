@@ -89,7 +89,7 @@ Test(find_free_block, size_of_remainder)
 	t_page_info pool[3];
 
 	bzero(pool, sizeof(t_page_info) * 3);
-	pool[0].start = init_new_page(TINY, M);
+	malloc_init(pool);
 	cr_assert(pool[0].start != 0);
 
 	size_t	free_size = pool[0].start->free->size;
