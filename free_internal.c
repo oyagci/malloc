@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 18:54:39 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/18 16:26:10 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/19 16:36:33 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,54 +96,47 @@ void	add_block_to_free_list(t_block *fblock, t_page_info *pinfo)
 	}
 }
 
-void	unmap_free_pages(t_page_info *pools)
+void	unmap_free_pages(t_page *start)
 {
-	t_page	*p;
 	t_block	*b;
-	int		i;
-	int		is_empty;
 	t_page	*next;
+	int		is_empty;
+
+	start = start->next;
+	while (start)
+	{
+		next = start->next;
+		is_empty = 1;
+		b = (t_block *)(start + 1);
+		while (b->size != 0)
+		{
+			if (!b->is_free)
+			{
+				is_empty = 0;
+				break ;
+			}
+			b = (t_block *)((t_byte *)(b + 1) + b->size);
+		}
+		if (is_empty)
+		{
+			start->prev->next = start->next;
+			if (start->next)
+				start->next->prev = start->prev;
+			munmap(start, start->size);
+		}
+		start = next;
+	}
+}
+
+void	unmap_free_pools(t_page_info *pools)
+{
+	int		i;
 
 	i = 0;
-	is_empty = 1;
 	while (i < 3)
 	{
 		if (pools[i].start)
-		{
-			p = pools[i].start->next;
-			while (p)
-			{
-				next = p->next;
-				is_empty = 1;
-				b = (t_block *)(p + 1);
-				while (b->size != 0)
-				{
-					if (!b->is_free)
-					{
-						is_empty = 0;
-						break ;
-					}
-					b = (t_block *)((t_byte *)(b + 1) + b->size);
-				}
-				if (is_empty)
-				{
-					if (p->prev)
-					{
-						p->prev->next = p->next;
-						if (p->next)
-							p->next->prev = p->prev;
-					}
-					else
-					{
-						pools[i].start = p->next;
-						if (p->next)
-							p->next->prev = 0;
-					}
-					munmap(p, p->size);
-				}
-				p = next;
-			}
-		}
+			unmap_free_pages(pools[i].start);
 		i += 1;
 	}
 }
@@ -163,7 +156,7 @@ void	free_internal(void *ptr, t_page_info *pools)
 	}
 	ptr_b->is_free = 1;
 	add_block_to_free_list(ptr_b, pools);
-	unmap_free_pages(pools);
+	unmap_free_pools(pools);
 	merge_free_blocks(pools);
 	pthread_mutex_unlock(&g_lock);
 }
