@@ -15,18 +15,9 @@
 pthread_mutex_t		g_lock = PTHREAD_MUTEX_INITIALIZER;
 t_page_info			g_pools[3];
 
-int			round_up(int num, int multiple)
+int			round_up(int num, int mult)
 {
-	int	remainder;
-
-	if (num == 0)
-		return (multiple);
-	if (multiple == 0)
-		return (num);
-	remainder = num % multiple;
-	if (remainder == 0)
-		return (num);
-	return (num + multiple - remainder);
+	return (num = (num + (mult - 1)) & ~(mult - 1));
 }
 
 void		*map_page(size_t size)
@@ -61,7 +52,15 @@ t_block		*find_free_block(t_page_info *pinfo, size_t size)
 	}
 	if (!b || b->size == 0)
 		return (0);
-	if (b->size - size > sizeof(t_block) + 16)
+	if (b->size - size > sizeof(t_block) + TINY_RES)
+	{
+		rmder = (t_block *)((t_byte *)(b + 1) + size);
+		rmder->size = b->size - size - sizeof(t_block);
+		rmder->is_free = 1;
+		b->size = size;
+		add_remainder_to_free_list(&p->free, b, rmder);
+	}
+	else if (pinfo->type == SMALL && b->size - size > sizeof(t_block) + SMALL_RES)
 	{
 		rmder = (t_block *)((t_byte *)(b + 1) + size);
 		rmder->size = b->size - size - sizeof(t_block);
