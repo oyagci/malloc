@@ -6,14 +6,12 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 13:21:07 by oyagci            #+#    #+#             */
-/*   Updated: 2018/09/18 10:55:05 by oyagci           ###   ########.fr       */
+/*   Updated: 2018/09/19 16:03:07 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
-
-#define LOG(x) ft_putendl_fd(x, 2)
 
 # include <string.h>
 # include <pthread.h>
