@@ -116,6 +116,7 @@ void		*malloc_internal(size_t size, t_page_info *pools)
 		pthread_mutex_unlock(&g_lock);
 		return (0);
 	}
+	size = (size == 0 ? 1 : size);
 	if (size <= TINY)
 		size = round_up(size, TINY_RES);
 	if (size > TINY && size <= SMALL)
