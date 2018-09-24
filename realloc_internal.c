@@ -100,5 +100,6 @@ void				*realloc_internal(
 		return (0);
 	ft_bzero(newp, size);
 	ft_memcpy(newp, ptr, old->size);
+	free_internal(ptr, pools);
 	return (newp);
 }
