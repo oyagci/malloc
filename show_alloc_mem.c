@@ -61,7 +61,19 @@ void				show_alloc_pages(t_page *p)
 	}
 }
 
-void				show_alloc_mem(void)
+void				show_alloc_mem_internal(t_page_info pools[3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		show_alloc_pages(pools[i].start);
+		i += 1;
+	}
+}
+
+void				show_alloc_mem()
 {
 	int	i;
 
