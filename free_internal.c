@@ -58,7 +58,7 @@ t_page	*is_in_pool(t_block *b, t_page *first)
 t_page	*find_parent_page(t_block *b, t_page_info *pools)
 {
 	t_page	*page;
-	int i;
+	int		i;
 
 	i = 0;
 	while (i < 3)
