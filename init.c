@@ -12,6 +12,19 @@
 
 #include "malloc.h"
 
+void		*map_page(size_t size)
+{
+	void	*p;
+
+	p = mmap(
+		0,
+		size,
+		PROT_READ | PROT_WRITE,
+		MAP_ANON | MAP_PRIVATE,
+		0, 0);
+	return (p);
+}
+
 void		init_page(t_page *page, t_page_type type, size_t size)
 {
 	page->next = 0;

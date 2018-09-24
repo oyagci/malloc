@@ -20,19 +20,6 @@ int			round_up(int num, int mult)
 	return (num = (num + (mult - 1)) & ~(mult - 1));
 }
 
-void		*map_page(size_t size)
-{
-	void	*p;
-
-	p = mmap(
-		0,
-		size,
-		PROT_READ | PROT_WRITE,
-		MAP_ANON | MAP_PRIVATE,
-		0, 0);
-	return (p);
-}
-
 t_block		*find_free_block(t_page_info *pinfo, size_t size)
 {
 	t_page	*p;
