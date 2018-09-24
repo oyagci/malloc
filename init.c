@@ -22,6 +22,8 @@ void		*map_page(size_t size)
 		PROT_READ | PROT_WRITE,
 		MAP_ANON | MAP_PRIVATE,
 		0, 0);
+	if (p == MAP_FAILED)
+		return (0);
 	return (p);
 }
 
@@ -54,7 +56,8 @@ t_page		*init_new_page(t_page_type type, size_t size)
 {
 	t_page	*p;
 
-	p = map_page(size);
+	if (NULL == (p = map_page(size)))
+		return (0);
 	init_page(p, type, size);
 	init_page_blocks(p);
 	return (p);
